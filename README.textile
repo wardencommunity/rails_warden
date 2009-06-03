@@ -1,0 +1,34 @@
+h1. Rails Warden
+
+Provides authentication for Rails applications via the "Warden":http://github.com/hassox/warden Rack authentication framework.
+
+Require the gem:
+
+config/environment.rb
+
+<pre><code>
+  config.gem "warden"
+</code></pre>
+
+Setup an initializer:
+
+config/initializers/warden.rb
+
+<pre><code>
+  Rails.configuration.middleware.use Warden::Manager do |manager|
+    manager.default_strategies :my_strategy
+    manager.failure_app = LoginController
+  end
+
+  # Setup Session Serialization
+  Warden::Manager.serialize_into_session{ |user|      [user.class, user.id] }
+  Warden::Manager.serialize_from_session{ |klass, id| klass.find(id)        }
+
+  # Declare your strategies here
+  #Warden::Strategies.add(:my_strategy) do
+  #  def authenticate!
+  #    # do stuff
+  #  end
+  #end
+  
+</code></pre>
