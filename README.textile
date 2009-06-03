@@ -7,7 +7,7 @@ Require the gem:
 config/environment.rb
 
 <pre><code>
-  config.gem "warden"
+  config.gem "rails_warden"
 </code></pre>
 
 Setup an initializer:
