@@ -1,7 +1,7 @@
 module RailsWarden
   class Manager
     
-    def self.new(app, opts = {})
+    def self.new(app, opts = {}, &block)
       # Get the failure application
       opts[:failure_app] = opts[:failure_app].to_s.classify.constantize if opts[:failure_app]
       opts[:defaults] = [opts[:defaults]].flatten if opts[:defaults]
@@ -23,7 +23,7 @@ module RailsWarden
         end
       end
       
-      Warden::Manager.new(app, opts)
+      Warden::Manager.new(app, opts, &block)
     end
     
   end
