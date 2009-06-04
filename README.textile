@@ -15,7 +15,7 @@ Setup an initializer:
 config/initializers/warden.rb
 
 <pre><code>
-  Rails.configuration.middleware.use Warden::Manager do |manager|
+  Rails.configuration.middleware.use RailsWarden::Manager do |manager|
     manager.default_strategies :my_strategy
     manager.failure_app = LoginController
   end
