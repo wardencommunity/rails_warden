@@ -12,7 +12,8 @@ describe "rails_warden controller mixin" do
     end
     
     class MockController 
-      include RailsWarden::ControllerMixin
+      include RailsWarden::Mixins::HelperMethods
+      include RailsWarden::Mixins::ControllerOnlyMethods
       attr_accessor :env
       def request
         self
