@@ -4,7 +4,7 @@ module RailsWarden
     def self.new(app, opts = {}, &block)
       # Get the failure application
       opts[:failure_app] = opts[:failure_app].to_s.classify.constantize if opts[:failure_app]
-      opts[:defaults] = [opts[:defaults]].flatten if opts[:defaults]
+      opts[:default_strategies] = [opts[:defaults]].flatten if opts[:defaults]
       
       # Set the default user
       if user = opts.delete(:default_user)

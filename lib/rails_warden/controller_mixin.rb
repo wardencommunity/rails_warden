@@ -1,27 +1,10 @@
 module RailsWarden
-  module ControllerMixin
-    
-    def self.included(base)
-      base.send(:include, InstanceMethods)
-    end
-    
-    module InstanceMethods
+  module Mixins    
+    module HelperMethods
       # The main accessor for the warden proxy instance
       # :api: public
       def warden
         request.env['warden']
-      end
-      
-      # Proxy to the authenticate method on warden
-      # :api: public
-      def authenticate(*args)
-        warden.authenticate(*args)
-      end
-      
-      # Proxy to the authenticate method on warden
-      # :api: public
-      def authenticate!(*args)
-        warden.authenticate!(*args)
       end
       
       # Proxy to the authenticated? method on warden
@@ -38,11 +21,31 @@ module RailsWarden
       end
       alias_method :current_user, :user
       
+      def user=(user)
+        warder.set_user user
+      end
+      alias_method :current_user=, :user=
+    end # Helper Methods
+    
+    module ControllerOnlyMethods
       # Logout the current user
       # :api: public
       def logout(*args)
         warden.logout(*args)
       end
+      
+      # Proxy to the authenticate method on warden
+      # :api: public
+      def authenticate(*args)
+        warden.authenticate(*args)
+      end
+      
+      # Proxy to the authenticate method on warden
+      # :api: public
+      def authenticate!(*args)
+        warden.authenticate!(*args)
+      end
+      
     end
   end
 end

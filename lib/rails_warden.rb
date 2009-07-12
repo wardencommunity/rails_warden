@@ -14,7 +14,14 @@ end
 
 if defined?(Rails)
   Rails.configuration.after_initialize do
-    ActionController::Base.class_eval{ include RailsWarden::ControllerMixin }
+    class ActionController::Base
+      include RailsWarden::Mixins::HelperMethods
+      include RailsWarden::Mixins::ControllerOnlyMethods
+    end
+    
+    module ApplicationHelper
+      include RailsWarden::Mixins::HelperMethods
+    end
   end
 end
 
