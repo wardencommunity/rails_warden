@@ -22,7 +22,7 @@ module RailsWarden
       alias_method :current_user, :user
       
       def user=(user)
-        warder.set_user user
+        warden.set_user user
       end
       alias_method :current_user=, :user=
     end # Helper Methods

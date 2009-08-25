@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/spec_helper'
+require 'ostruct'
 
 
 describe "rails_warden controller mixin" do
@@ -64,6 +65,11 @@ describe "rails_warden controller mixin" do
   it "should run current_user on warden" do
     @mock_warden.should_receive(:user).and_return(true)
     @controller.current_user
+  end
+
+  it "should set the user on warden" do
+    @mock_warden.should_receive(:set_user).and_return(true)
+    @controller.user = User.new
   end
   
   it "should proxy logout to warden" do
