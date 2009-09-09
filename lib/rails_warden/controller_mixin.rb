@@ -32,7 +32,7 @@ module RailsWarden
       # Logout the current user
       # :api: public
       def logout(*args)
-        warden._session.inspect  # Without this inspect here.  The session does not clear :|
+        warden.raw_session.inspect  # Without this inspect here.  The session does not clear :|
         warden.logout(*args)
       end
 
