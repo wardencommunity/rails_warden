@@ -21,7 +21,7 @@ module Warden::Mixins::Common
   def raw_session
     request.session
   end
-  
+
   def reset_session!
     raw_session.inspect # why do I have to inspect it to get it to clear?
     raw_session.clear
@@ -31,6 +31,14 @@ end
 Warden::Manager.before_failure do |env, opts|
   env['warden'].request.params['action'] = RailsWarden.unauthenticated_action || "unauthenticated"
 end
+
+# Rails needs the action to be passed in with the params
+Warden::Manager.before_failure do |env, opts|
+  if request = env["action_controller.rescue.request"]
+    request.params["action"] = RailsWarden.unauthenticated_action
+  end
+end
+
 
 if defined?(Rails)
   Rails.configuration.after_initialize do

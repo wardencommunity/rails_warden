@@ -54,4 +54,14 @@ describe "rails_warden" do
                                         )
     RailsWarden.unauthenticated_action.should == "unauthenticated"
   end
+
+  it "should not add a before_failure callback each time it is created" do
+    original_number_of_callbacks = Warden::Manager._before_failure.size
+
+    RailsWarden::Manager.new(@app,  :failure_app  => "foo_failure",
+                                    :defaults     => :password)
+
+    Warden::Manager._before_failure.size.should == original_number_of_callbacks
+  end
+
 end
