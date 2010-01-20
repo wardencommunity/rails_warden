@@ -21,8 +21,16 @@ config/initializers/warden.rb
   end
 
   # Setup Session Serialization
-  Warden::Manager.serialize_into_session{ |user|      [user.class, user.id] }
-  Warden::Manager.serialize_from_session{ |klass, id| klass.find(id)        }
+  class Warden::SessionSerializer
+    def serialize(record)
+      [record.class, record.id]
+    end
+
+    def deserialize(keys)
+      klass, id = keys
+      klass.find(:first, :conditions => { :id => id })
+    end
+  end
 
   # Declare your strategies here
   #Warden::Strategies.add(:my_strategy) do
