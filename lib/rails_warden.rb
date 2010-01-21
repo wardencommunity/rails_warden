@@ -53,7 +53,7 @@ if defined?(Rails)
   end
 end
 
-class Warden::Serializers::Session
+class Warden::SessionSerializer
   def serialize(user)
     [user.class, user.id]
   end
