@@ -11,7 +11,9 @@ module Warden::Mixins::Common
   # Gets the rails request object by default if it's available
   def request
     return @request if @request
-    if env['action_controller.rescue.request']
+    if defined?(ActionDispatch::Request)
+      @request = ActionDispatch::Request.new(env)
+    elsif env['action_controller.rescue.request']
       @request = env['action_controller.rescue.request']
     else
       Rack::Request.new(env)
@@ -29,18 +31,21 @@ module Warden::Mixins::Common
 end
 
 Warden::Manager.before_failure do |env, opts|
-  env['warden'].request.params['action'] = RailsWarden.unauthenticated_action || "unauthenticated"
+  action = RailsWarden.unauthenticated_action || "unauthenticated"
+  if Rails.respond_to?(:version) && Rails.version >= "3"
+    env['action_dispatch.request.path_parameters'][:action] = action
+  else
+    env['warden'].request.params['action'] = action
+  end
 end
 
 # Rails needs the action to be passed in with the params
 Warden::Manager.before_failure do |env, opts|
-  if request = env["action_controller.rescue.request"]
-    request.params["action"] = RailsWarden.unauthenticated_action
-  end
+  env['warden'].request.params["action"] = RailsWarden.unauthenticated_action
 end
 
 
-if defined?(Rails)
+if !defined?(Rails::Railtie)
   Rails.configuration.after_initialize do
     class ActionController::Base
       include RailsWarden::Mixins::HelperMethods
@@ -49,6 +54,19 @@ if defined?(Rails)
 
     module ApplicationHelper
       include RailsWarden::Mixins::HelperMethods
+    end
+  end
+else
+  class RailsWarden::Railtie < Rails::Railtie
+    initializer :warden do
+      ActionController::Base.class_eval do
+        include RailsWarden::Mixins::HelperMethods
+        include RailsWarden::Mixins::ControllerOnlyMethods
+      end
+
+      module ApplicationHelper
+        include RailsWarden::Mixins::HelperMethods
+      end
     end
   end
 end
