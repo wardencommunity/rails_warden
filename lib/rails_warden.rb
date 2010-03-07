@@ -20,6 +20,38 @@ module Warden::Mixins::Common
     end
   end
 
+  def response
+    return @response if @response
+    if env['action_controller.rescue.response']
+      @response = env['action_controller.rescue.response']
+    else
+      Rack::Response.new(env)
+    end
+  end
+
+  def cookies
+    unless defined?('ActionController::Cookies')
+      puts 'cookies was not defined'
+      return
+    end
+    @cookies ||= begin
+      # Duck typing...
+      controller = Struct.new(:request, :response) do
+        def self.helper_method(*args); end
+      end
+      controller.send(:include, ActionController::Cookies)
+      controller.new(self.request, self.response).send(:cookies)
+    end
+  end
+
+  def logger
+    unless defined?('Rails')
+      puts 'logger not defined'
+      return
+    end
+    Rails.logger
+  end
+
   def raw_session
     request.session
   end

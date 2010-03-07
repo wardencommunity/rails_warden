@@ -1,0 +1,3 @@
+* 0.3.0
+* [roman] Added `response` and `cookies` methods from Rails to the Strategy 
+environment. 
