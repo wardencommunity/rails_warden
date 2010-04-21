@@ -21,6 +21,7 @@ begin
     gem.email = EMAIL
     gem.homepage = HOMEPAGE
     gem.rubyforge_project = "warden"
+    gem.add_dependency 'warden'
   end
 rescue LoadError
   puts "Jeweler (or a dependency) not available.  Install with: sudo gem install jeweler"
