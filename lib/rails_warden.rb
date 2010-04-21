@@ -2,6 +2,7 @@
 require 'warden'
 require 'active_support'
 
+
 $:.unshift File.expand_path(File.dirname(__FILE__))
 require "rails_warden/manager"
 require "rails_warden/rails_settings"
@@ -79,24 +80,24 @@ end
 
 if !defined?(Rails::Railtie)
   Rails.configuration.after_initialize do
-    class ActionController::Base
+    class ::ActionController::Base
       include RailsWarden::Mixins::HelperMethods
       include RailsWarden::Mixins::ControllerOnlyMethods
     end
 
-    module ApplicationHelper
+    module ::ApplicationHelper
       include RailsWarden::Mixins::HelperMethods
     end
   end
 else
   class RailsWarden::Railtie < Rails::Railtie
     initializer :warden do
-      ActionController::Base.class_eval do
+      ::ActionController::Base.class_eval do
         include RailsWarden::Mixins::HelperMethods
         include RailsWarden::Mixins::ControllerOnlyMethods
       end
 
-      module ApplicationHelper
+      module ::ApplicationHelper
         include RailsWarden::Mixins::HelperMethods
       end
     end
