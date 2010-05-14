@@ -64,19 +64,14 @@ module Warden::Mixins::Common
 end
 
 Warden::Manager.before_failure do |env, opts|
-  action = RailsWarden.unauthenticated_action || "unauthenticated"
+  opts ||= {}
+  action = opts[:action] || RailsWarden.unauthenticated_action || "unauthenticated"
   if Rails.respond_to?(:version) && Rails.version >= "3"
     env['action_dispatch.request.path_parameters'][:action] = action
   else
     env['warden'].request.params['action'] = action
   end
 end
-
-# Rails needs the action to be passed in with the params
-Warden::Manager.before_failure do |env, opts|
-  env['warden'].request.params["action"] = RailsWarden.unauthenticated_action
-end
-
 
 if !defined?(Rails::Railtie)
   Rails.configuration.after_initialize do
@@ -106,7 +101,7 @@ end
 
 class Warden::SessionSerializer
   def serialize(user)
-    [user.class, user.id]
+    [user.class.name, user.id]
   end
 
   def deserialize(key)
