@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_warden (0.5.3)
+    rails_warden (0.5.4)
       warden (>= 1.0.0)
 
 GEM

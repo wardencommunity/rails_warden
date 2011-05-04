@@ -86,7 +86,7 @@ if !defined?(Rails::Railtie)
   end
 else
   class RailsWarden::Railtie < Rails::Railtie
-    initializer :warden do
+    include_block = lambda do
       ::ActionController::Base.class_eval do
         include RailsWarden::Mixins::HelperMethods
         include RailsWarden::Mixins::ControllerOnlyMethods
@@ -95,6 +95,14 @@ else
       ::ActionView::Base.class_eval do
         include RailsWarden::Mixins::HelperMethods
       end
+    end
+
+    if respond_to?(:initializer)
+      initializer :warden, &include_block
+    elsif respond_to?(:config) && config.respond_to?(:before_initialize)
+      config.before_initialize(&include_block)
+    else
+      Rails.configuration.after_initialize &include_block
     end
   end
 end
