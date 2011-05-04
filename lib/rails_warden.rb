@@ -92,7 +92,7 @@ else
         include RailsWarden::Mixins::ControllerOnlyMethods
       end
 
-      module ::ApplicationHelper
+      ::ActiveView::Base.class_eval do
         include RailsWarden::Mixins::HelperMethods
       end
     end

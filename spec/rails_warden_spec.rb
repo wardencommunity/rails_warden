@@ -24,7 +24,7 @@ describe "rails_warden" do
 
   it "should set the failure application to FooFailure" do
     r = RailsWarden::Manager.new(@app, :failure_app => "foo_failure", :defaults => :password)
-    r.failure_app.should == FooFailure
+    r.config.failure_app.should == FooFailure
   end
 
   it "should set the default user to FooUser if specified" do
