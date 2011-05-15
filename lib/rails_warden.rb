@@ -86,7 +86,7 @@ if !defined?(Rails::Railtie)
   end
 else
   class RailsWarden::Railtie < Rails::Railtie
-    include_block = lambda do
+    include_block = Proc.new {
       ::ActionController::Base.class_eval do
         include RailsWarden::Mixins::HelperMethods
         include RailsWarden::Mixins::ControllerOnlyMethods
@@ -95,7 +95,7 @@ else
       ::ActionView::Base.class_eval do
         include RailsWarden::Mixins::HelperMethods
       end
-    end
+    }
 
     if respond_to?(:initializer)
       initializer :warden, &include_block
