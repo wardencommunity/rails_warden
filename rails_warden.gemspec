@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = %q{rails_warden}
-  s.version = "0.5.5"
+  s.version = "0.5.6"
   s.authors = ["Daniel Neighman"]
   s.date = %q{2010-05-14}
   s.summary = %q{A gem that provides authenitcation via the Warden framework}

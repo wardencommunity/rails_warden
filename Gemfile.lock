@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_warden (0.5.4)
+    rails_warden (0.5.6)
       warden (>= 1.0.0)
 
 GEM
@@ -78,8 +78,8 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.26)
-    warden (1.0.3)
-      rack (>= 1.0.0)
+    warden (1.0.5)
+      rack (>= 1.0)
 
 PLATFORMS
   ruby
