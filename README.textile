@@ -23,7 +23,7 @@ config/initializers/warden.rb
   # Setup Session Serialization
   class Warden::SessionSerializer
     def serialize(record)
-      [record.class, record.id]
+      [record.class.name, record.id]
     end
 
     def deserialize(keys)
