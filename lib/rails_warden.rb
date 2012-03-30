@@ -23,7 +23,9 @@ module Warden::Mixins::Common
 
   def response
     return @response if @response
-    if env['action_controller.rescue.response']
+		if defined?(ActionDispatch::Response)
+			@response  = ActionDispatch::Response.new
+    elsif env['action_controller.rescue.response']
       @response = env['action_controller.rescue.response']
     else
       Rack::Response.new(env)
