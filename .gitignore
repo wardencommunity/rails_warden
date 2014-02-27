@@ -1,3 +1,9 @@
 pkg
 pkg/*
 *.gem
+Gemfile.lock
+
+.DS_Store
+
+.ruby-version
+.rvmrc
