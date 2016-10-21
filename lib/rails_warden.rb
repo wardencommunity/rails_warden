@@ -93,6 +93,12 @@ else
         include RailsWarden::Mixins::HelperMethods
         include RailsWarden::Mixins::ControllerOnlyMethods
       end
+      if defined?(::ActionController::API)
+        ::ActionController::API.class_eval do
+          include RailsWarden::Mixins::HelperMethods
+          include RailsWarden::Mixins::ControllerOnlyMethods
+        end
+      end
 
       ::ActionView::Base.class_eval do
         include RailsWarden::Mixins::HelperMethods
