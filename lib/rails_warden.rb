@@ -93,10 +93,16 @@ else
         include RailsWarden::Mixins::HelperMethods
         include RailsWarden::Mixins::ControllerOnlyMethods
       end
-
-      ::ActionView::Base.class_eval do
-        include RailsWarden::Mixins::HelperMethods
+      if !defined?(::ActionController::API)
+        ::ActionController::API.class_eval do
+          include RailsWarden::Mixins::HelperMethods
+          include RailsWarden::Mixins::ControllerOnlyMethods
+        end
       end
+
+      # ::ActionView::Base.class_eval do
+      #   include RailsWarden::Mixins::HelperMethods
+      # end
     }
 
     if respond_to?(:initializer)
