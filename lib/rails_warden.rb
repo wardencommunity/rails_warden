@@ -88,7 +88,7 @@ if !defined?(Rails::Railtie)
 else
   class RailsWarden::Railtie < Rails::Railtie
     include_block = Proc.new {
-      
+
       ActiveSupport.on_load(:action_controller) do
         ::ActionController::Base.class_eval do
           include RailsWarden::Mixins::HelperMethods
@@ -97,11 +97,12 @@ else
         if defined? ::ActionController::API
           ::ActionController::API.class_eval do
             include RailsWarden::Mixins::HelperMethods
-            include RailsWarden::Mixins::ControllerOnlyMethods
-            # TODO use the Rails 5 helper vs include
-            # /Users/jspooner/v/rails_warden/lib/rails_warden.rb:100:in `block (3 levels) in <class:Railtie>': undefined method `helper' for ActionController::API:Class (NoMethodError)
-            # helper RailsWarden::Mixins::HelperMethods
-            # helper RailsWarden::Mixins::ControllerOnlyMethods
+
+            if defined? helper
+              helper RailsWarden::Mixins::ControllerOnlyMethods
+            else
+              include RailsWarden::Mixins::ControllerOnlyMethods
+            end
           end
         end
       end
