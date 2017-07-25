@@ -2,7 +2,6 @@
 require 'warden'
 require 'active_support'
 
-
 $:.unshift File.expand_path(File.dirname(__FILE__))
 require "rails_warden/manager"
 require "rails_warden/rails_settings"
@@ -89,13 +88,29 @@ if !defined?(Rails::Railtie)
 else
   class RailsWarden::Railtie < Rails::Railtie
     include_block = Proc.new {
-      ::ActionController::Base.class_eval do
-        include RailsWarden::Mixins::HelperMethods
-        include RailsWarden::Mixins::ControllerOnlyMethods
+
+      ActiveSupport.on_load(:action_controller) do
+        ::ActionController::Base.class_eval do
+          include RailsWarden::Mixins::HelperMethods
+          include RailsWarden::Mixins::ControllerOnlyMethods
+        end
+        if defined? ::ActionController::API
+          ::ActionController::API.class_eval do
+            include RailsWarden::Mixins::HelperMethods
+
+            if defined? helper
+              helper RailsWarden::Mixins::ControllerOnlyMethods
+            else
+              include RailsWarden::Mixins::ControllerOnlyMethods
+            end
+          end
+        end
       end
 
-      ::ActionView::Base.class_eval do
-        include RailsWarden::Mixins::HelperMethods
+      ActiveSupport.on_load(:action_view) do
+        ::ActionView::Base.class_eval do
+          include RailsWarden::Mixins::HelperMethods
+        end
       end
     }
 

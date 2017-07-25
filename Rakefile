@@ -11,7 +11,7 @@ RSpec::Core::RakeTask.new(:spec)
 
 desc "Run tests against all other versions of Rails (!run task without 'bundle exec'!)"
 task :all do
-  versions = %w[~>2 ~>3.0.0 ~>3.1.0]
+  versions = %w[~>2 ~>3.0.0 ~>3.1.0 ~>5.0.0]
   versions.each do |version|
     sh "export RAILS_VERSION='#{version}' && (bundle check || bundle update) && bundle exec rake"
   end
