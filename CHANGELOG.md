@@ -1,4 +1,4 @@
-## Unreleased
+## 0.6.0
 
 * Support for Rails 5
 
@@ -7,4 +7,4 @@
 * They're avaialbel everywhere
 
 ## 0.3.0
-* [roman] Added `response` and `cookies` methods from Rails to the Strategy environment. 
+* [roman] Added `response` and `cookies` methods from Rails to the Strategy environment.
