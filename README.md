@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/wardencommunity/rails_warden.svg?style=svg)](https://circleci.com/gh/wardencommunity/rails_warden)
 
-This application adds some nice helpers on-top of the base [Warden](https://github.com/hassox/warden) Rack layer. It aims to make Warden easier to use in Rails-based environments without something as heavy-weight as devise.
+This application adds some nice helpers on-top of the base [Warden](https://github.com/wardencommunity/warden) Rack layer. It aims to make Warden easier to use in Rails-based environments without something as heavy-weight as devise.
 
 ## Installation
 
@@ -57,7 +57,7 @@ class Warden::SessionSerializer
 end
 ```
 
-The next step is to configure warden with some authentication strategies. Check out the [warden wiki](https://github.com/hassox/warden/wiki/Strategies) for that.
+The next step is to configure warden with some authentication strategies. Check out the [warden wiki](https://github.com/wardencommunity/warden/wiki/Strategies) for that.
 
 ### Application Mixin
 
