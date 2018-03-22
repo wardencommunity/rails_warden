@@ -1,5 +1,7 @@
 # Rails Warden
 
+[![CircleCI](https://circleci.com/gh/wardencommunity/rails_warden.svg?style=svg)](https://circleci.com/gh/wardencommunity/rails_warden)
+
 This application adds some nice helpers on-top of the base [Warden](https://github.com/hassox/warden) Rack layer. It aims to make Warden easier to use in Rails-based environments without something as heavy-weight as devise.
 
 ## Installation
