@@ -59,8 +59,8 @@ RSpec.describe "rails_warden controller mixin" do
     @controller.login!(User.new)
   end
 
-  it "should proxy logout to warden" do
+  it "should proxy logout! to warden" do
     expect(@mock_warden).to receive(:logout).and_return(true)
-    @controller.logout
+    @controller.logout!
   end
 end

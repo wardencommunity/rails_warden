@@ -31,7 +31,7 @@ module RailsWarden
 
     # Logout the current user
     # :api: public
-    def logout(*args)
+    def logout!(*args)
       warden.logout(*args)
       warden.clear_strategies_cache!
     end
