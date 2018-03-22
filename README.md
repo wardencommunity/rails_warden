@@ -29,8 +29,14 @@ Create a new Rails initializer to inject RailsWarden into the Rails middleware s
 ```ruby
 # config/initializers/warden.rb
 Rails.configuration.middleware.use RailsWarden::Manager do |manager|
-  manager.default_strategies :my_strategy
-  manager.failure_app = LoginController
+  manager.failure_app = Proc.new { |_env|
+    ['401', {'Content-Type' => 'application/json'}, { error: 'Unauthorized', code: 401 }]
+  }
+  manager.default_strategies :password # needs to be defined
+  # Optional Settings (see Warden wiki)
+  # manager.scope_defaults :admin, strategies: [:password]
+  # manager.default_scope = :admin # optional default scope
+  # manager.intercept_401 = false # Warden will intercept 401 responses, which can cause conflicts
 end
 ```
 
