@@ -1,9 +1,9 @@
 # encoding: utf-8
 require 'warden'
-require 'active_support'
 
 require "rails_warden/version"
 require "rails_warden/engine"
+
 require "rails_warden/authentication"
 require "rails_warden/manager"
 require "rails_warden/rails_settings"
@@ -23,8 +23,8 @@ module Warden::Mixins::Common
 
   def response
     return @response if @response
-		if defined?(ActionDispatch::Response)
-			@response  = ActionDispatch::Response.new
+    if defined?(ActionDispatch::Response)
+      @response  = ActionDispatch::Response.new
     elsif env['action_controller.rescue.response']
       @response = env['action_controller.rescue.response']
     else
@@ -75,56 +75,6 @@ Warden::Manager.before_failure do |env, opts|
   end
 end
 
-# if !defined?(Rails::Railtie)
-#   Rails.configuration.after_initialize do
-#     class ::ActionController::Base
-#       include RailsWarden::Mixins::HelperMethods
-#       include RailsWarden::Mixins::ControllerOnlyMethods
-#     end
-
-#     module ::ApplicationHelper
-#       include RailsWarden::Mixins::HelperMethods
-#     end
-#   end
-# else
-#   class RailsWarden::Railtie < Rails::Railtie
-#     include_block = Proc.new {
-
-#       ActiveSupport.on_load(:action_controller) do
-#         ::ActionController::Base.class_eval do
-#           include RailsWarden::Mixins::HelperMethods
-#           include RailsWarden::Mixins::ControllerOnlyMethods
-#         end
-#         if defined? ::ActionController::API
-#           ::ActionController::API.class_eval do
-#             include RailsWarden::Mixins::HelperMethods
-
-#             if defined? helper
-#               helper RailsWarden::Mixins::ControllerOnlyMethods
-#             else
-#               include RailsWarden::Mixins::ControllerOnlyMethods
-#             end
-#           end
-#         end
-#       end
-
-#       ActiveSupport.on_load(:action_view) do
-#         ::ActionView::Base.class_eval do
-#           include RailsWarden::Mixins::HelperMethods
-#         end
-#       end
-#     }
-
-#     if respond_to?(:initializer)
-#       initializer :warden, &include_block
-#     elsif respond_to?(:config) && config.respond_to?(:before_initialize)
-#       config.before_initialize(&include_block)
-#     else
-#       Rails.configuration.after_initialize &include_block
-#     end
-#   end
-# end
-
 class Warden::SessionSerializer
   def serialize(user)
     [user.class.name, user.id]
@@ -138,6 +88,6 @@ class Warden::SessionSerializer
             when String, Symbol
               klass.to_s.classify.constantize
             end
-    klass.find(id)
+    klass.find_by(id: id)
   end
 end
