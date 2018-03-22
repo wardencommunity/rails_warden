@@ -25,15 +25,20 @@ module RailsWarden
       warden.user(*args)
     end
 
-    def login!(user)
-      warden.set_user user
+    def login!(user, scope: :default)
+      warden.set_user(user, scope: scope)
     end
 
     # Logout the current user
     # :api: public
-    def logout!(*args)
-      warden.logout(*args)
-      warden.clear_strategies_cache!
+    def logout!(scope: nil)
+      if scope
+        warden.logout(scope: scope)
+        warden.clear_strategies_cache!(scope: scope)
+      else
+        warden.logout
+        warden.clear_strategies_cache!
+      end
     end
 
     # Proxy to the authenticate method on warden
