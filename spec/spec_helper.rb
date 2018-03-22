@@ -1,18 +1,23 @@
+require "bundler/setup"
+require "rails"
+require "rails_warden"
+
+require "action_controller"
+
 $TESTING=true
-$:.push File.join(File.dirname(__FILE__), '..', 'lib')
 
-require 'rails/version'
+Dir[File.join(__dir__, '/support/**/*.rb')].each { |f| require f }
 
-if Rails::VERSION::MAJOR > 2
-  require 'rails'
-else
-  module Rails
-    class FakeConfig
-      def after_initialize
-      end
-    end
-    @@configuration = FakeConfig.new
+RSpec.configure do |config|
+  # Enable flags like --only-failures and --next-failure
+  config.example_status_persistence_file_path = ".rspec_status"
+
+  # Disable RSpec exposing methods globally on `Module` and `main`
+  config.disable_monkey_patching!
+
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
   end
-  require 'initializer'
+
+  config.order = :random
 end
-require 'rails_warden'

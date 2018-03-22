@@ -2,10 +2,11 @@
 require 'warden'
 require 'active_support'
 
-$:.unshift File.expand_path(File.dirname(__FILE__))
+require "rails_warden/version"
+require "rails_warden/engine"
+require "rails_warden/authentication"
 require "rails_warden/manager"
 require "rails_warden/rails_settings"
-require "rails_warden/controller_mixin"
 
 module Warden::Mixins::Common
   # Gets the rails request object by default if it's available
@@ -74,55 +75,55 @@ Warden::Manager.before_failure do |env, opts|
   end
 end
 
-if !defined?(Rails::Railtie)
-  Rails.configuration.after_initialize do
-    class ::ActionController::Base
-      include RailsWarden::Mixins::HelperMethods
-      include RailsWarden::Mixins::ControllerOnlyMethods
-    end
+# if !defined?(Rails::Railtie)
+#   Rails.configuration.after_initialize do
+#     class ::ActionController::Base
+#       include RailsWarden::Mixins::HelperMethods
+#       include RailsWarden::Mixins::ControllerOnlyMethods
+#     end
 
-    module ::ApplicationHelper
-      include RailsWarden::Mixins::HelperMethods
-    end
-  end
-else
-  class RailsWarden::Railtie < Rails::Railtie
-    include_block = Proc.new {
+#     module ::ApplicationHelper
+#       include RailsWarden::Mixins::HelperMethods
+#     end
+#   end
+# else
+#   class RailsWarden::Railtie < Rails::Railtie
+#     include_block = Proc.new {
 
-      ActiveSupport.on_load(:action_controller) do
-        ::ActionController::Base.class_eval do
-          include RailsWarden::Mixins::HelperMethods
-          include RailsWarden::Mixins::ControllerOnlyMethods
-        end
-        if defined? ::ActionController::API
-          ::ActionController::API.class_eval do
-            include RailsWarden::Mixins::HelperMethods
+#       ActiveSupport.on_load(:action_controller) do
+#         ::ActionController::Base.class_eval do
+#           include RailsWarden::Mixins::HelperMethods
+#           include RailsWarden::Mixins::ControllerOnlyMethods
+#         end
+#         if defined? ::ActionController::API
+#           ::ActionController::API.class_eval do
+#             include RailsWarden::Mixins::HelperMethods
 
-            if defined? helper
-              helper RailsWarden::Mixins::ControllerOnlyMethods
-            else
-              include RailsWarden::Mixins::ControllerOnlyMethods
-            end
-          end
-        end
-      end
+#             if defined? helper
+#               helper RailsWarden::Mixins::ControllerOnlyMethods
+#             else
+#               include RailsWarden::Mixins::ControllerOnlyMethods
+#             end
+#           end
+#         end
+#       end
 
-      ActiveSupport.on_load(:action_view) do
-        ::ActionView::Base.class_eval do
-          include RailsWarden::Mixins::HelperMethods
-        end
-      end
-    }
+#       ActiveSupport.on_load(:action_view) do
+#         ::ActionView::Base.class_eval do
+#           include RailsWarden::Mixins::HelperMethods
+#         end
+#       end
+#     }
 
-    if respond_to?(:initializer)
-      initializer :warden, &include_block
-    elsif respond_to?(:config) && config.respond_to?(:before_initialize)
-      config.before_initialize(&include_block)
-    else
-      Rails.configuration.after_initialize &include_block
-    end
-  end
-end
+#     if respond_to?(:initializer)
+#       initializer :warden, &include_block
+#     elsif respond_to?(:config) && config.respond_to?(:before_initialize)
+#       config.before_initialize(&include_block)
+#     else
+#       Rails.configuration.after_initialize &include_block
+#     end
+#   end
+# end
 
 class Warden::SessionSerializer
   def serialize(user)

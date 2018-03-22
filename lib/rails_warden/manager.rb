@@ -1,7 +1,6 @@
 # encoding: utf-8
 module RailsWarden
   class Manager
-
     def self.new(app, opts = {}, &block)
       # Get the failure application
       opts[:failure_app] = opts[:failure_app].to_s.classify.constantize if opts[:failure_app]
@@ -19,6 +18,5 @@ module RailsWarden
 
       Warden::Manager.new(app, opts, &block)
     end
-
   end
 end
