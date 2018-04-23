@@ -1,3 +1,13 @@
+## 1.0.0 (Unreleased)
+
+* Supply only a small subset of helper methods
+* Remove aliases if they conflict
+* Add Rails Engine
+* Update RSpec to latest
+* Only support Rails 5
+* No longer auto inject mixin
+* Update gemspec to follow modern standard
+
 ## 0.6.0
 
 * Support for Rails 5
