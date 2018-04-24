@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.summary = "A gem that provides authentication Rails helpers when using Warden for authentication"
   spec.description = "A gem that provides authentication Rails helpers when using Warden for authentication"
   spec.email = "haspec.sox@gmail.com"
-  spec.homepage = "https://github.com/hassox/rails_warden"
+  spec.homepage = "https://github.com/wardencommunity/rails_warden"
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
