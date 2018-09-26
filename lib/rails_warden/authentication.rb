@@ -33,7 +33,7 @@ module RailsWarden
     # :api: public
     def logout!(scope: nil)
       if scope
-        warden.logout(scope: scope)
+        warden.logout(scope)
         warden.clear_strategies_cache!(scope: scope)
       else
         warden.logout
