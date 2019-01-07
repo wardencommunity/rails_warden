@@ -2,6 +2,6 @@ require 'rails_warden/compat'
 
 module RailsWarden
   class Engine < ::Rails::Engine
-    config.eager_load_paths += Dir["#{config.root}/lib/**/"]
+    paths.add 'lib', eager_load: true
   end
 end
