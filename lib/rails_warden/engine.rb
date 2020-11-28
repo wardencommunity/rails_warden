@@ -2,6 +2,6 @@ require 'rails_warden/compat'
 
 module RailsWarden
   class Engine < ::Rails::Engine
-    paths.add 'lib', eager_load: true
+    config.autoload_paths << File.expand_path("../..", __dir__)
   end
 end
