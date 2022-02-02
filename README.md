@@ -9,7 +9,7 @@ This application adds some nice helpers on-top of the base [Warden](https://gith
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rails_warden'
+gem 'rails_warden', git: 'https://github.com/wardencommunity/rails_warden'
 ```
 
 And then execute
