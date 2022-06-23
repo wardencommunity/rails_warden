@@ -6,6 +6,7 @@ Gemfile.lock
 .DS_Store
 
 .ruby-version
+.ruby-gemset
 .rvmrc
 
 .rspec_status

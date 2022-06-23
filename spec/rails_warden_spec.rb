@@ -1,17 +1,11 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe "rails_warden" do
 
   before(:each) do
-    @app = lambda{|e| Rack::Resposnse.new("response").finish}
-    class ::FooFailure
-    end
-
-    class ::FooUser
-    end
-
-    class ::User
-    end
+    @app = lambda { |e| Rack::Response.new("response").finish }
 
     RailsWarden.default_user_class = nil
     RailsWarden.unauthenticated_action = nil
