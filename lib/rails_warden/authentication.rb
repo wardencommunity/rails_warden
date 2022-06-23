@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 module RailsWarden
   module Authentication
     extend ActiveSupport::Concern
@@ -25,8 +27,8 @@ module RailsWarden
       warden.user(*args)
     end
 
-    def login!(user, scope: :default)
-      warden.set_user(user, scope: scope)
+    def login!(user, **opts)
+      warden.set_user(user, opts)
     end
 
     # Logout the current user

@@ -13,15 +13,29 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        gemfile: [rails50, rails51, rails52, rails60, rails61]
-        ruby: ["2.5", "2.6", "2.7", "3.0"]
+        gemfile: [rails50, rails51, rails52, rails60, rails61, rails70]
+        ruby: ["2.5", "2.6", "2.7", "3.0", "3.1"]
         exclude:
           - gemfile: rails50
             ruby: "3.0"
+          - gemfile: rails50
+            ruby: "3.1"
           - gemfile: rails51
             ruby: "3.0"
+          - gemfile: rails51
+            ruby: "3.1"
           - gemfile: rails52
             ruby: "3.0"
+          - gemfile: rails52
+            ruby: "3.1"
+          - gemfile: rails60
+            ruby: "3.1"
+          - gemfile: rails61
+            ruby: "3.1"
+          - gemfile: rails70
+            ruby: "2.5"
+          - gemfile: rails70
+            ruby: "2.6"
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
